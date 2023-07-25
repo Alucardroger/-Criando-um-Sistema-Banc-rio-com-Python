@@ -1,2 +1,54 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+menu = """
+[d]Depositar
+[s]Sacar
+[e]Extrato
+[q]Sair
+=> """
+
+saldo = 0
+limite = 500
+extrato = ""
+numero_de_saques = 0
+LIMITE_SAQUES = 3
+
+while True:
+    opcao = input(menu)
+
+    if opcao == "d":
+        print("Deposito")
+        valor_deposito = int(input("Digite um valor para o depósito"))
+        if valor_deposito > 0:
+            saldo = saldo + valor_deposito
+            extrato = extrato + f"Deposito: R${valor_deposito:.2f}\n"
+        else:
+            print("valor inválido")
+    elif opcao =="s":
+        print("Saque")
+        if numero_de_saques >= LIMITE_SAQUES:
+            print("Numero maximo de saques diários atingidos")
+        else:
+            valor_saque = int(input("Digite um valor para sacar"))
+            if valor_saque >500:
+                print("Valor maximo permitido por saque de R$500")
+            elif valor_saque >0:
+                if valor_saque <= saldo:
+                    saldo = saldo - valor_saque
+                    numero_de_saques = numero_de_saques+1
+                    extrato = extrato + f"Saque:    R${valor_saque:.2f}\n"
+                    print(f"saldo: R${saldo:.2f}")
+                else:
+                    print("Saldo insuficiente")
+            else:
+                print("Por favor insira um valor válido!")
+    elif opcao =="e":
+        print("Extrato")
+        if extrato == "":
+            print("Não foram realizadas movimentações")
+        else:
+            print(extrato)
+            print(f"Saldo atual: {saldo:.2f}")
+    elif opcao =="q":
+        break
+    else:
+        print("Operaçao inválida, por favor selecione novamente a operação"
+              " desejada")
